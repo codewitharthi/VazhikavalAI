@@ -1,181 +1,147 @@
-// ==========================================
-// VAZHIKAVALAI - FRONTEND JAVASCRIPT
-// ==========================================
-
-
-// Find Safe Route
 function findRoute() {
 
     const source = document.getElementById("source").value.trim();
     const destination = document.getElementById("destination").value.trim();
 
-    // Check empty fields
+    const result = document.getElementById("routeResult");
+
     if (source === "" || destination === "") {
-
-        alert("Please enter both source and destination.");
-
+        result.innerHTML = `
+            <div class="route-card">
+                <h3>⚠️ Enter both locations</h3>
+                <p>Please enter source and destination.</p>
+            </div>
+        `;
         return;
     }
 
-
-    // Get result container
-    const result = document.getElementById("routeResult");
-
-
-    // Show loading message
     result.innerHTML = `
-        <div class="route-card loading-card">
-            <h3>🔍 Analyzing Route...</h3>
-            <p>
-                VazhikavalAI is checking route safety,
-                traffic and travel conditions.
-            </p>
+        <div class="route-card">
+            <h3>🔄 Calculating route...</h3>
+            <p>Checking safety conditions...</p>
         </div>
     `;
 
+    const apiUrl =
+        "/api/route?source=" +
+        encodeURIComponent(source) +
+        "&destination=" +
+        encodeURIComponent(destination);
 
-    // Simulate AI analysis
-    setTimeout(() => {
+    console.log("Calling API:", apiUrl);
 
-        result.innerHTML = `
+    fetch(apiUrl)
+        .then(response => {
 
-            <div class="route-card">
+            console.log("Response status:", response.status);
 
-                <div class="route-header">
+            if (!response.ok) {
+                throw new Error(
+                    "HTTP Error: " + response.status
+                );
+            }
 
-                    <div>
+            return response.json();
+        })
+        .then(data => {
 
-                        <h3>🛡️ Recommended Safe Route</h3>
+            console.log("Backend response:", data);
 
-                        <p>
-                            ${source} → ${destination}
-                        </p>
+            result.innerHTML = `
+                <div class="route-card">
+
+                    <div class="route-header">
+
+                        <div>
+                            <h3>🛡️ Safe Route</h3>
+
+                            <p>
+                                ${data.source}
+                                →
+                                ${data.destination}
+                            </p>
+                        </div>
+
+                        <div class="safety-score">
+
+                            <strong>
+                                ${data.safetyScore}%
+                            </strong>
+
+                            <span>
+                                Safety
+                            </span>
+
+                        </div>
 
                     </div>
 
 
-                    <div class="safety-score">
+                    <div class="route-info">
 
-                        <strong>92%</strong>
+                        <div>
+                            <span>Source</span>
+                            <strong>
+                                ${data.source}
+                            </strong>
+                        </div>
 
-                        <span>
-                            Safety
-                        </span>
+
+                        <div>
+                            <span>Destination</span>
+                            <strong>
+                                ${data.destination}
+                            </strong>
+                        </div>
+
+
+                        <div>
+                            <span>Safety Level</span>
+
+                            <strong class="safe">
+                                ${data.safetyLevel}
+                            </strong>
+                        </div>
 
                     </div>
+
+
+                    <button
+                        class="select-route"
+                        onclick="selectRoute()">
+
+                        Select Route
+
+                    </button>
 
                 </div>
+            `;
+        })
+        .catch(error => {
 
+            console.error("ERROR:", error);
 
-                <div class="route-info">
+            result.innerHTML = `
+                <div class="route-card">
 
-                    <div>
+                    <h3>❌ Error</h3>
 
-                        <span>
-                            Distance
-                        </span>
+                    <p>
+                        Unable to calculate the route.
+                    </p>
 
-                        <strong>
-                            12.4 km
-                        </strong>
-
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            Travel Time
-                        </span>
-
-                        <strong>
-                            25 min
-                        </strong>
-
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            Risk Level
-                        </span>
-
-                        <strong class="safe">
-                            Low
-                        </strong>
-
-                    </div>
+                    <small>
+                        ${error.message}
+                    </small>
 
                 </div>
-
-
-                <div class="route-analysis">
-
-                    <h4>AI Safety Analysis</h4>
-
-                    <p>
-                        ✓ Low-risk route
-                    </p>
-
-                    <p>
-                        ✓ Good road conditions
-                    </p>
-
-                    <p>
-                        ✓ Moderate traffic
-                    </p>
-
-                    <p>
-                        ✓ Well-connected route
-                    </p>
-
-                </div>
-
-
-                <button
-                    class="select-route"
-                    onclick="selectRoute()"
-                >
-                    Select This Route
-                </button>
-
-            </div>
-
-        `;
-
-    }, 1500);
-
+            `;
+        });
 }
 
 
-
-// Select Route
 function selectRoute() {
 
-    alert(
-        "Route selected successfully! 🛡️\n\n" +
-        "VazhikavalAI will guide you through the safer route."
-    );
+    alert("✅ Safe route selected!");
 
 }
-
-
-
-// Allow Enter key
-document.addEventListener("DOMContentLoaded", function () {
-
-    const destinationInput =
-        document.getElementById("destination");
-
-    destinationInput.addEventListener("keypress", function (event) {
-
-        if (event.key === "Enter") {
-
-            findRoute();
-
-        }
-
-    });
-
-});

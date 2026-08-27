@@ -1,63 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>VazhikavalAI | Safe Route Intelligence</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        VazhikavalAI | Safe Route Intelligence
+    </title>
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- Leaflet Map CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
 </head>
+
 
 <body>
 
-    <!-- NAVBAR -->
+
+    <!-- ================================
+         NAVBAR
+    ================================= -->
+
     <header class="navbar">
 
         <div class="logo">
-            <span class="shield">🛡️</span>
-            <span>Vazhikaval<span class="ai">AI</span></span>
+
+            <span class="shield">
+                🛡️
+            </span>
+
+            <span>
+                Vazhikaval<span class="ai">AI</span>
+            </span>
+
         </div>
 
+
         <nav>
-            <a href="#home">Home</a>
-            <a href="#features">Features</a>
-            <a href="#about">About</a>
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#features">
+                Features
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
         </nav>
 
+
         <button class="login-btn">
+
             Get Started
+
         </button>
 
     </header>
 
 
-    <!-- HERO -->
-    <section class="hero" id="home">
+
+    <!-- ================================
+         HERO
+    ================================= -->
+
+    <section
+        class="hero"
+        id="home"
+    >
 
         <div class="hero-content">
 
+
             <div class="badge">
+
                 🛡️ AI-Powered Travel Safety
+
             </div>
 
+
             <h1>
+
                 Your Journey.
-                <span>Our Intelligence.</span>
+
+                <span>
+                    Our Intelligence.
+                </span>
+
             </h1>
 
+
             <p>
-                VazhikavalAI analyzes route safety, traffic,
-                road conditions and environmental factors to
-                help you choose a safer journey.
+
+                VazhikavalAI analyzes route safety,
+                traffic, road conditions and environmental
+                factors to help you choose a safer journey.
+
             </p>
 
+
+
             <!-- SEARCH BOX -->
+
             <div class="search-box">
+
+
+                <!-- SOURCE -->
 
                 <div class="input-group">
 
-                    <label>📍 From</label>
+                    <label>
+                        📍 From
+                    </label>
 
                     <input
                         type="text"
@@ -68,9 +136,14 @@
                 </div>
 
 
+
+                <!-- DESTINATION -->
+
                 <div class="input-group">
 
-                    <label>🎯 To</label>
+                    <label>
+                        🎯 To
+                    </label>
 
                     <input
                         type="text"
@@ -81,201 +154,422 @@
                 </div>
 
 
+
+                <!-- BUTTON -->
+
                 <button
                     class="route-btn"
                     onclick="findRoute()"
                 >
+
                     Find Safe Route →
+
                 </button>
 
+
             </div>
+
 
         </div>
 
     </section>
 
 
-    <!-- ROUTE RESULTS -->
-    <section class="routes">
+
+    <!-- ================================
+         INTERACTIVE MAP
+    ================================= -->
+
+    <section class="map-section">
+
 
         <div class="section-heading">
 
-            <span>ROUTE ANALYSIS</span>
 
-            <h2>Recommended Routes</h2>
+            <span>
+                LIVE ROUTE MAP
+            </span>
+
+
+            <h2>
+                Explore Your Journey
+            </h2>
+
 
             <p>
-                Compare routes based on safety and travel conditions.
+                View your location and explore safer
+                travel routes.
             </p>
 
+
         </div>
+
+
+        <div id="map"></div>
+
+
+    </section>
+
+
+
+    <!-- ================================
+         ROUTE RESULTS
+    ================================= -->
+
+    <section class="routes">
+
+
+        <div class="section-heading">
+
+
+            <span>
+                ROUTE ANALYSIS
+            </span>
+
+
+            <h2>
+                Recommended Routes
+            </h2>
+
+
+            <p>
+                Compare routes based on safety
+                and travel conditions.
+            </p>
+
+
+        </div>
+
 
 
         <div id="routeResult">
 
-            <!-- Route Card -->
+
+            <!-- ROUTE CARD -->
+
             <div class="route-card">
+
 
                 <div class="route-header">
 
+
                     <div>
-                        <h3>Safe Route</h3>
-                        <p>Recommended route</p>
+
+                        <h3>
+                            Safe Route
+                        </h3>
+
+                        <p>
+                            Recommended route
+                        </p>
+
                     </div>
+
+
 
                     <div class="safety-score">
-                        <strong>92%</strong>
-                        <span>Safety</span>
+
+                        <strong>
+                            92%
+                        </strong>
+
+                        <span>
+                            Safety
+                        </span>
+
                     </div>
 
+
                 </div>
+
 
 
                 <div class="route-info">
 
-                    <div>
-                        <span>Distance</span>
-                        <strong>12.4 km</strong>
-                    </div>
 
                     <div>
-                        <span>Travel Time</span>
-                        <strong>25 min</strong>
+
+                        <span>
+                            Distance
+                        </span>
+
+                        <strong>
+                            12.4 km
+                        </strong>
+
                     </div>
 
+
+
                     <div>
-                        <span>Risk Level</span>
+
+                        <span>
+                            Travel Time
+                        </span>
+
+                        <strong>
+                            25 min
+                        </strong>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>
+                            Risk Level
+                        </span>
+
                         <strong class="safe">
                             Low
                         </strong>
+
                     </div>
+
 
                 </div>
 
+
+
                 <button class="select-route">
+
                     Select Route
+
                 </button>
+
 
             </div>
 
+
         </div>
+
 
     </section>
 
 
-    <!-- FEATURES -->
-    <section class="features" id="features">
+
+    <!-- ================================
+         FEATURES
+    ================================= -->
+
+    <section
+        class="features"
+        id="features"
+    >
+
 
         <div class="section-heading">
 
-            <span>WHY VAZHIKAVALAI</span>
 
-            <h2>Safety Intelligence</h2>
+            <span>
+                WHY VAZHIKAVALAI
+            </span>
+
+
+            <h2>
+                Safety Intelligence
+            </h2>
+
 
             <p>
-                Multiple factors are considered before recommending
-                a safer route.
+
+                Multiple factors are considered before
+                recommending a safer route.
+
             </p>
+
 
         </div>
 
 
+
         <div class="feature-container">
 
+
+            <!-- AI -->
+
             <div class="feature-card">
+
 
                 <div class="feature-icon">
                     🧠
                 </div>
 
-                <h3>AI Analysis</h3>
+
+                <h3>
+                    AI Analysis
+                </h3>
+
 
                 <p>
-                    Analyze multiple safety factors to generate
-                    intelligent route recommendations.
+
+                    Analyze multiple safety factors
+                    to generate intelligent route
+                    recommendations.
+
                 </p>
+
 
             </div>
 
 
+
+            <!-- TRAFFIC -->
+
             <div class="feature-card">
+
 
                 <div class="feature-icon">
                     🚦
                 </div>
 
-                <h3>Traffic Intelligence</h3>
+
+                <h3>
+                    Traffic Intelligence
+                </h3>
+
 
                 <p>
-                    Consider traffic conditions and travel
-                    patterns while evaluating routes.
+
+                    Consider traffic conditions and
+                    travel patterns while evaluating
+                    routes.
+
                 </p>
+
 
             </div>
 
 
+
+            <!-- SAFETY -->
+
             <div class="feature-card">
+
 
                 <div class="feature-icon">
                     🛡️
                 </div>
 
-                <h3>Safety Score</h3>
+
+                <h3>
+                    Safety Score
+                </h3>
+
 
                 <p>
-                    Understand the safety level of each route
-                    through an easy-to-read score.
+
+                    Understand the safety level of
+                    each route through an easy-to-read
+                    score.
+
                 </p>
+
 
             </div>
 
+
         </div>
+
 
     </section>
 
 
-    <!-- ABOUT -->
-    <section class="about" id="about">
+
+    <!-- ================================
+         ABOUT
+    ================================= -->
+
+    <section
+        class="about"
+        id="about"
+    >
+
 
         <div>
 
-            <span>ABOUT THE PROJECT</span>
+
+            <span>
+                ABOUT THE PROJECT
+            </span>
+
 
             <h2>
+
                 Making everyday travel
-                <span>safer.</span>
+
+                <span>
+                    safer.
+                </span>
+
             </h2>
 
+
             <p>
-                VazhikavalAI is an AI-based safer route
-                recommendation system designed to help travelers
-                make informed decisions about their journeys.
+
+                VazhikavalAI is an AI-based safer
+                route recommendation system designed
+                to help travelers make informed
+                decisions about their journeys.
+
             </p>
 
+
         </div>
+
 
     </section>
 
 
-    <!-- FOOTER -->
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
     <footer>
 
+
         <div class="logo">
+
             🛡️ Vazhikaval<span class="ai">AI</span>
+
         </div>
 
+
         <p>
+
             AI-powered safer route intelligence.
+
         </p>
 
+
         <p class="copyright">
-            © 2026 VazhikavalAI. All rights reserved.
+
+            © 2026 VazhikavalAI.
+            All rights reserved.
+
         </p>
+
 
     </footer>
 
 
+
+    <!-- ================================
+         LEAFLET
+    ================================= -->
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+
+
+    <!-- YOUR JAVASCRIPT -->
+
     <script src="script.js"></script>
 
+
 </body>
+
 </html>
