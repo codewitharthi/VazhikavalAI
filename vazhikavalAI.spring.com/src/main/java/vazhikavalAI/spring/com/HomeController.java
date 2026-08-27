@@ -1,13 +1,13 @@
 package vazhikavalAI.spring.com;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
 public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "Welcome to VazhikavalAI";
+        return "forward:/index.html";
     }
 }
-

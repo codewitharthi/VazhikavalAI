@@ -2,19 +2,22 @@ function findRoute() {
 
     const source = document.getElementById("source").value.trim();
     const destination = document.getElementById("destination").value.trim();
-
     const result = document.getElementById("routeResult");
 
+    // Check input
     if (source === "" || destination === "") {
+
         result.innerHTML = `
             <div class="route-card">
                 <h3>⚠️ Enter both locations</h3>
                 <p>Please enter source and destination.</p>
             </div>
         `;
+
         return;
     }
 
+    // Loading message
     result.innerHTML = `
         <div class="route-card">
             <h3>🔄 Calculating route...</h3>
@@ -22,6 +25,7 @@ function findRoute() {
         </div>
     `;
 
+    // Spring Boot API
     const apiUrl =
         "/api/route?source=" +
         encodeURIComponent(source) +
@@ -33,7 +37,7 @@ function findRoute() {
     fetch(apiUrl)
         .then(response => {
 
-            console.log("Response status:", response.status);
+            console.log("HTTP Status:", response.status);
 
             if (!response.ok) {
                 throw new Error(
@@ -43,10 +47,23 @@ function findRoute() {
 
             return response.json();
         })
+
         .then(data => {
 
-            console.log("Backend response:", data);
+            console.log("Backend Response:", data);
 
+            // Safety class
+            let safetyClass = "safe";
+
+            if (data.safetyLevel === "MODERATE") {
+                safetyClass = "moderate";
+            }
+
+            if (data.safetyLevel === "RISKY") {
+                safetyClass = "risky";
+            }
+
+            // Display result
             result.innerHTML = `
                 <div class="route-card">
 
@@ -81,6 +98,7 @@ function findRoute() {
 
                         <div>
                             <span>Source</span>
+
                             <strong>
                                 ${data.source}
                             </strong>
@@ -89,6 +107,7 @@ function findRoute() {
 
                         <div>
                             <span>Destination</span>
+
                             <strong>
                                 ${data.destination}
                             </strong>
@@ -98,10 +117,17 @@ function findRoute() {
                         <div>
                             <span>Safety Level</span>
 
-                            <strong class="safe">
+                            <strong class="${safetyClass}">
                                 ${data.safetyLevel}
                             </strong>
                         </div>
+
+                    </div>
+
+
+                    <div class="route-success">
+
+                        ✅ Route analyzed successfully
 
                     </div>
 
@@ -117,17 +143,19 @@ function findRoute() {
                 </div>
             `;
         })
+
         .catch(error => {
 
-            console.error("ERROR:", error);
+            console.error("Route Error:", error);
 
             result.innerHTML = `
                 <div class="route-card">
 
-                    <h3>❌ Error</h3>
+                    <h3>❌ Unable to calculate route</h3>
 
                     <p>
-                        Unable to calculate the route.
+                        Please make sure the Spring Boot
+                        backend is running.
                     </p>
 
                     <small>
@@ -140,8 +168,12 @@ function findRoute() {
 }
 
 
+// Select route
 function selectRoute() {
 
-    alert("✅ Safe route selected!");
+    alert(
+        "✅ Safe route selected!\n\n" +
+        "VazhikavalAI will help you travel safely."
+    );
 
 }
